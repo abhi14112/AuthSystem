@@ -13,19 +13,29 @@ const EditProduct = () => {
         "description": product.description,
         "price": product.price,
         "image": product.image,
-        "category": product.category
+        "category": product.category,
+        "imageFile": null,
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProductData({ ...productData, [name]: value });
     };
-
+    const handleFileChange = (e) => {
+        setProductData({ ...productData, imageFile: e.target.files[0] });
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("productName", productData.productName);
+        formData.append("price", productData.price);
+        formData.append("description", productData.description);
+        formData.append("category", productData.category);
+        formData.append("image", productData.image);
+        formData.append("imageFile", productData.imageFile);
         try {
             const token = localStorage.getItem("token");
             console.log(productData);
-            const response = await axios.put(`https://localhost:7249/api/product/update/${product.id}`, productData, {
+            const response = await axios.put(`https://localhost:7249/api/product/update/${product.id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -38,6 +48,7 @@ const EditProduct = () => {
                 price: "",
                 image: "",
                 category: "",
+                imageFile: null,
             });
             navigate("/");
 
@@ -101,17 +112,16 @@ const EditProduct = () => {
                         </div>
 
                         <div className="mb-4">
-                            <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                                Image URL
+                            <label className="block text-sm font-medium text-gray-700">
+                                Image File
                             </label>
                             <input
-                                type="text"
-                                id="image"
-                                name="image"
-                                value={productData.image}
-                                onChange={handleChange}
+                                type="file"
+                                accept="image/*"
+
+                                onChange={handleFileChange}
+
                                 className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter image URL"
                                 required
                             />
                         </div>
