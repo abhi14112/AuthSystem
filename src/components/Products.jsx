@@ -2,7 +2,10 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import axios from 'axios';
+import useAuthStore from '../store/store';
 const Products = () => {
+    const logout = useAuthStore((state) => state.logout);
+
     const [products, setProducts] = useState([])
     if (!products) {
         return <h1>Loading...</h1>
@@ -18,6 +21,7 @@ const Products = () => {
                 setProducts(response.data);
             })
             .catch((error) => {
+                logout();
                 console.log(error)
             })
     }, []);

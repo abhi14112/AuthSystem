@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 const Navbar = () => {
     const navigate = useNavigate();
+    
     const user = useAuthStore((state) => state.user);
     const logout = useAuthStore((state) => state.logout);
     if (user?.role == 'admin') {
