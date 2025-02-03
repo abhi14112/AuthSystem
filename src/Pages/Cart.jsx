@@ -8,7 +8,6 @@ import { Plus, Minus } from "lucide-react";
 const Cart = () => {
   const setCartItems = useAuthStore((state) => state.setCartItems);
   const cartItems = useAuthStore((state) => state.cartItems);
-
   const getCartData = async () => {
     try {
       const token = localStorage.getItem("token");

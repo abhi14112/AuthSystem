@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
+    console.log(product);
+    const navigate = useNavigate();
     const [cartData, setCartData] = useState({
         "ProductId": product.id,
         "Quantity": "1"
@@ -25,7 +28,8 @@ const ProductCard = ({ product }) => {
             <img
                 src={product.image}
                 alt={product.productName}
-                className="w-full h-48 object-cover rounded-t-2xl"
+                className="w-full cursor-pointer h-48 object-cover rounded-t-2xl"
+                onClick={() => navigate(`/product/${product.id}`)}
             />
             <div className="p-4">
                 <h2 className="text-xl font-bold text-gray-800 truncate">
@@ -38,7 +42,7 @@ const ProductCard = ({ product }) => {
                     <span className="text-lg font-semibold text-green-600">
                         ${product.price.toFixed(2)}
                     </span>
-                    <button onClick={handleAddToCart} className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <button onClick={handleAddToCart} className="px-4 py-2 bg-blue-600 text-white text-sm font-medium cursor-pointer rounded-lg shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400">
                         Add to Cart
                     </button>
                 </div>

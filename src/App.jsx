@@ -10,6 +10,8 @@ import useAuthStore from './store/store';
 import AddProduct from './Pages/AddProduct';
 import EditProduct from './Pages/EditProduct';
 import Cart from './Pages/Cart';
+import SearchPage from './Pages/SearchPage';
+import ProductDetail from './components/ProductDetail';
 const App = () => {
     const user = useAuthStore((state) => state.user);
     return (
@@ -22,6 +24,8 @@ const App = () => {
                 <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
                 <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
                 <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
+                <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
+                <Route path='/product/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
                 <Route path='/update' element={user?.role == 'admin' ? <EditProduct /> : <Navigate to="/" />} />
                 <Route path='*' element={<NotFound />} />
 

@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 const AdminPage = () => {
     const [allProducts, setAllProducts] = useState([]);
     const navigate = useNavigate();
-
+    const [sortBy, setSortBy] = useState("price-asc");
+    const [category, setCategory] = useState("all");
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("https://localhost:7249/api/product/all", {
+                const response = await axios.get(`https://localhost:7249/api/product/all/${sortBy}/${category}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 console.log("All products:", response.data);
@@ -21,7 +22,7 @@ const AdminPage = () => {
             }
         };
         fetchProducts();
-    }, []);
+    }, [category, sortBy]);
 
     const handleDelete = async (id) => {
         try {
@@ -39,7 +40,30 @@ const AdminPage = () => {
         <>
             <Navbar />
             <div className="container mx-auto p-6">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Product List</h2>
+                <div className="flex justify-between">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-6">Product List</h2>
+                    <div className="flex gap-4 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex flex-col">
+                            <label className="text-gray-700 font-medium">Sort By:</label>
+                            <select value={sortBy} onChange={(e) => { setSortBy(e.target.value) }} className="mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="price-asc">Price Low to High</option>
+                                <option value="price-desc">Price High to Low</option>
+                                <option value="name-asc">A-Z</option>
+                                <option value="name-desc">Z-A</option>
+                            </select>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700 font-medium">Category:</label>
+                            <select value={category} onChange={(e) => { setCategory(e.target.value) }} className="mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="all">All</option>
+                                <option value="gadgets">Gadgets</option>
+                                <option value="smartphones">SmartPhones</option>
+                                <option value="footwear">Footwear</option>
+                                <option value="fashion">Fashion</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div className="overflow-hidden border rounded-lg shadow-md">
                     <table className="min-w-full bg-white">
                         <thead>
