@@ -25,7 +25,7 @@ const App = () => {
                 <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
                 <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
                 <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
-                <Route path='/product/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
+                <Route path='/product/item/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
                 <Route path='/update' element={user?.role == 'admin' ? <EditProduct /> : <Navigate to="/" />} />
                 <Route path='*' element={<NotFound />} />
 

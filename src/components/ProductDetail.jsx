@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const ProductDetail = () => {
+    const location = useLocation();
+    const product = location?.state.product;
     const { id } = useParams();
-    const [product, setProduct] = useState();
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100 p-6">

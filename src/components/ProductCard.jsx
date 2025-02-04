@@ -29,7 +29,7 @@ const ProductCard = ({ product }) => {
                 src={product.image}
                 alt={product.productName}
                 className="w-full cursor-pointer h-48 object-cover rounded-t-2xl"
-                onClick={() => navigate(`/product/${product.id}`)}
+                onClick={() => navigate(`/product/item/${product.id}`, { state: { product } })}
             />
             <div className="p-4">
                 <h2 className="text-xl font-bold text-gray-800 truncate">
