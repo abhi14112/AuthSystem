@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
-    console.log(product);
     const navigate = useNavigate();
     const [cartData, setCartData] = useState({
         "ProductId": product.id,
