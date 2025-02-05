@@ -12,6 +12,7 @@ import EditProduct from './Pages/EditProduct';
 import Cart from './Pages/Cart';
 import SearchPage from './Pages/SearchPage';
 import ProductDetail from './components/ProductDetail';
+import Products from './components/Products';
 const App = () => {
     const user = useAuthStore((state) => state.user);
     return (
@@ -24,6 +25,7 @@ const App = () => {
                 <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
                 <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
                 <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
+                <Route path='/products' element={user?.role == 'customer' ? <Products /> : <Navigate to="/" />} />
                 <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
                 <Route path='/product/item/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
                 <Route path='/update' element={user?.role == 'admin' ? <EditProduct /> : <Navigate to="/" />} />
