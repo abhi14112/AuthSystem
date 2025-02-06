@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { CircleUserRound, Search } from "lucide-react";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
 import useAuthStore from "../store/store";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const Navbar = () => {
         );
     }
     return (
-        <div className="w-full bg-gray-800 text-white p-2 flex px-12 justify-between items-center">
+        <div className="w-full  bg-gray-800 text-white py-6 flex px-12 justify-between items-center">
             <div className="flex items-center">
                 <h1 className="text-2xl font-semibold">
                     <Link to="/">E-Commerce</Link>
@@ -51,7 +51,7 @@ const Navbar = () => {
                         className="absolute top-1 cursor-pointer right-1 flex items-center rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="button" onClick={() => {
                             if (searchKeyword != "")
-                                navigate("/search", { state: { searchKey: searchKeyword }});
+                                navigate("/search", { state: { searchKey: searchKeyword } });
                         }}
                     >
                         <svg
@@ -71,6 +71,9 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="flex gap-3 items-center">
+                <button onClick={() => { navigate("/profile") }} className="focus:outline-none relative cursor-pointer text-white bg-blue-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                    <CircleUserRound size={18} />
+                </button>
                 <button
                     className="focus:outline-none relative cursor-pointer text-white bg-yellow-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                     onClick={() => {

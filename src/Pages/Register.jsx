@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom'
 const Register = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
         emailAddress: "",
         username: "",
         password: "",
@@ -21,7 +23,12 @@ const Register = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7249/api/auth/signup", userData).then((res) => {
+        axios.post("https://localhost:7249/api/auth/signup", userData, {
+            // headers: {
+            //     'Content-Type': 'application/json'
+            // }
+        }).then((res) => {
+            console.log(res, "this id response......");
             toast.success(res.data.message);
             navigate("/login");
         })
@@ -35,6 +42,8 @@ const Register = () => {
             <div className='text-slate-900 rounded-lg p-4 shadow-lg h-max'>
                 <div className='flex flex-col'>
                     <h1 className='text-3xl font-semibold mb-2 text-center'>SignUp Form</h1>
+                    <input type='text' name='firstName' className='py-1 px-3 mt-4 border outline-none rounded-md font-semibold' value={userData.firstName} placeholder='FirstName' onChange={handleChange} />
+                    <input type='text' name='lastName' className='py-1 px-3 mt-4 border outline-none rounded-md font-semibold' value={userData.lastName} placeholder='LastName' onChange={handleChange} />
                     <input type='email' name='emailAddress' className='py-1 px-3 mt-4 border outline-none rounded-md font-semibold' value={userData.emailAddress} placeholder='Email' onChange={handleChange} />
                     <input type='text' name='username' className='py-1 px-3 mt-2 border outline-none rounded-md font-semibold' value={userData.username} placeholder='Username' onChange={handleChange} />
                     <input type='password' name='password' className='py-1 mt-2 px-3 border outline-none font-semibold  rounded-md' value={userData.password} placeholder='Password' onChange={handleChange} />
