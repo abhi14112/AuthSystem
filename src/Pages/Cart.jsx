@@ -3,9 +3,11 @@ import Navbar from "../components/Navbar";
 import useAuthStore from "../store/store";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const setCartItems = useAuthStore((state) => state.setCartItems);
   const cartItems = useAuthStore((state) => state.cartItems);
   const getCartData = async () => {
@@ -81,6 +83,24 @@ const Cart = () => {
     ).toFixed(2);
   };
 
+  const checkoutItems = cartItems?.map(({ productId, productName, price, quantity }) => ({
+    ProductId: productId,
+    Name: productName,
+    price: price,
+    Quantity: quantity
+  }))
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://localhost:7249/api/Stripe/create-payment-intent",
+        checkoutItems
+      );
+      window.location.href = response.data.url;
+    } catch (err) {
+      console.error("Payment Error:", err);
+    }
+  };
   useEffect(() => {
     getCartData();
   }, []);
@@ -146,10 +166,8 @@ const Cart = () => {
         <div className="w-full h-48 mt-6 lg:mt-0 lg:ml-6 bg-white shadow-md rounded-lg p-6 col-span-1 ">
           <h3 className="text-xl font-semibold mb-4">Checkout</h3>
           <p className="text-lg">Total Price: ${calculateTotal()}</p>
-          <button
-            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg w-full hover:bg-blue-600 transition"
-          // Add your checkout logic here
-          >
+          <button onClick={handleSubmit}
+            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg w-full hover:bg-blue-600 transition">
             Proceed to Checkout
           </button>
         </div>

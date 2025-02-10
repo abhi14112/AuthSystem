@@ -14,8 +14,12 @@ import SearchPage from './Pages/SearchPage';
 import ProductDetail from './components/ProductDetail';
 import Products from './components/Products';
 import Profile from './Pages/Profile';
+import PurchaseSuccessPage from './Pages/PurchaseSuccess';
+import PurchaseFail from './Pages/PurchaseFail';
+import OrdersPage from './Pages/OrderPage';
 const App = () => {
     const user = useAuthStore((state) => state.user);
+    console.log(user);
     return (
         <>
             <Routes>
@@ -26,6 +30,9 @@ const App = () => {
                 <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
                 <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
                 <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
+                <Route path='/orders' element={user?.role == 'customer' ? <OrdersPage /> : <Navigate to="/" />} />
+                <Route path='/success' element={user?.role == 'customer' ? <PurchaseSuccessPage /> : <Navigate to="/" />} />
+                <Route path='/failed' element={user?.role == 'customer' ? <PurchaseFail /> : <Navigate to="/" />} />
                 <Route path='/profile' element={user?.role == 'customer' ? <Profile /> : <Navigate to="/" />} />
                 <Route path='/products' element={user?.role == 'customer' ? <Products /> : <Navigate to="/" />} />
                 <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
