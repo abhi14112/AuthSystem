@@ -34,7 +34,6 @@ const EditProduct = () => {
         formData.append("imageFile", productData.imageFile);
         try {
             const token = localStorage.getItem("token");
-            console.log(productData);
             const response = await axios.put(`https://localhost:7249/api/product/update/${product.id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,

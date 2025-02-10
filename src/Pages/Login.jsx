@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
-import axios from 'axios'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 import useAuthStore from '../store/store'
+import api from '../utils/axiosInstance'
 const Login = () => {
 
     const [userData, setUserData] = useState({
@@ -18,10 +18,10 @@ const Login = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7249/api/auth/login", userData).then((res) => {
+        api.post("/api/auth/login", userData).then((res) => {
             toast.success(res.data.message);
-            localStorage.setItem("user",JSON.stringify(res.data.user));
-            localStorage.setItem("token",res.data.token);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("token", res.data.token);
             setAuth(res.data.user);
             setToken(res.data.token);
         })

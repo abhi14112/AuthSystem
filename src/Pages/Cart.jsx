@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import useAuthStore from "../store/store";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
-
+import api from "../utils/axiosInstance";
 const Cart = () => {
   const navigate = useNavigate();
   const setCartItems = useAuthStore((state) => state.setCartItems);
@@ -13,12 +12,7 @@ const Cart = () => {
   const getCartData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("https://localhost:7249/api/cart/items", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await api.get("/api/cart/items");
       const data = response.data?.cartItems;
       if (data) {
         setCartItems(data);
@@ -30,27 +24,16 @@ const Cart = () => {
 
   const removeFromCart = async (productId) => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(`https://localhost:7249/api/cart/RemoveFromCart/${productId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.post(`/api/cart/RemoveFromCart/${productId}`);
       setCartItems(cartItems.filter((item) => item.productId !== productId));
       toast.success("Item removed from card");
     } catch (error) {
       toast.error("Failed to remove item from cart");
-      console.error("Error removing item:", error);
     }
   };
 
   const updateQuantity = async (productId, quantity) => {
-    const token = localStorage.getItem("token");
-    const response = await axios.put(`https://localhost:7249/api/cart/UpdateQuantity/${productId}`, quantity, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
-    });
-    console.log(response.data);
+    const response = await api.put(`/api/cart/UpdateQuantity/${productId}`, quantity);
   }
   const increaseQuantity = (productId) => {
     const updatedItems = cartItems.map((item) =>
@@ -92,8 +75,7 @@ const Cart = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "https://localhost:7249/api/Stripe/create-payment-intent",
+      const response = await api.post("/api/Stripe/create-payment-intent",
         checkoutItems
       );
       window.location.href = response.data.url;

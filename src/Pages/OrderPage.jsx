@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import useAuthStore from "../store/store";
 const OrdersPage = () => {
     const [orders, setOrders] = useState([]);
@@ -9,8 +9,7 @@ const OrdersPage = () => {
     const user = useAuthStore((state) => state.user);
     console.log(user);
     useEffect(() => {
-        axios
-            .get(`https://localhost:7249/api/Order/${user.emailAddress}`)
+        api.get(`/api/Order/${user.emailAddress}`)
             .then((response) => {
                 setOrders(response.data);
                 setLoading(false);

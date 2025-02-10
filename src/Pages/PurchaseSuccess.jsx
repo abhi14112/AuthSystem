@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Confetti from "react-confetti";
 import React from "react";
+import api from "../utils/axiosInstance";
 import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 const PurchaseSuccessPage = () => {
 	const [searchParams] = useSearchParams();
 	const sessionId = searchParams.get("session_id");
@@ -13,8 +13,8 @@ const PurchaseSuccessPage = () => {
 	console.log(order);
 	useEffect(() => {
 		if (sessionId) {
-			fetch(`https://localhost:7249/api/stripe/session/${sessionId}`).then(response => response.json())
-				.then(data => setOrder(data))
+			api.get(`/api/stripe/session/${sessionId}`)
+				.then(response => setOrder(response.data))
 				.catch(error => console.error("Error while fetching order"));
 		}
 	}, [sessionId]);

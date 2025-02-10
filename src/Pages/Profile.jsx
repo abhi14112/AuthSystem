@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import useAuthStore from "../store/store";
 import toast from "react-hot-toast";
 const PersonalInfoForm = () => {
@@ -15,32 +15,15 @@ const PersonalInfoForm = () => {
   const handleUpdateInfo = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.put(
-        `https://localhost:7249/api/profile/${user.id}`,
-        personInfo,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.put(`/api/profile/${user.id}`, personInfo);
       toast.success("Profile updated successfully");
-      console.log(response.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
   const getPersonalInfo = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `https://localhost:7249/api/profile/${user.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.get(`/api/profile/${user.id}`);
       setPersonInfo(response.data);
     } catch (error) {
       toast.error("Error while getting profile");

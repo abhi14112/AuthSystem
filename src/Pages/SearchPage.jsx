@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
@@ -11,11 +11,7 @@ const SearchPage = () => {
     console.log(searchKey);
     const perFormSearch = () => {
         const token = localStorage.getItem("token");
-        axios.get(`https://localhost:7249/api/product/search/${searchKey}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        api.get(`/api/product/search/${searchKey}`)
             .then((response) => {
                 console.log(response.data);
                 setSearchData(response.data);

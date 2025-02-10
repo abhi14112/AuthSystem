@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
@@ -10,12 +10,7 @@ const ProductCard = ({ product }) => {
     })
     const handleAddToCart = async () => {
         try {
-            const token = localStorage.getItem("token");
-            await axios.post("https://localhost:7249/api/cart/AddToCart", cartData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            await api.post("/api/cart/AddToCart", cartData);
             toast.success("Product Added to Cart Successfully");
         } catch (error) {
             toast.error("Failed to add in cart");

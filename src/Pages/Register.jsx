@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import api from '../utils/axiosInstance'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -23,12 +23,7 @@ const Register = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7249/api/auth/signup", userData, {
-            // headers: {
-            //     'Content-Type': 'application/json'
-            // }
-        }).then((res) => {
-            console.log(res, "this id response......");
+        api.post("/api/Sauth/signup", userData).then((res) => {
             toast.success(res.data.message);
             navigate("/login");
         })

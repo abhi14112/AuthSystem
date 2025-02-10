@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-
+import api from "../utils/axiosInstance.js";
 const AdminPage = () => {
     const [allProducts, setAllProducts] = useState([]);
     const navigate = useNavigate();
@@ -11,11 +10,7 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const token = localStorage.getItem("token");
-                const response = await axios.get(`https://localhost:7249/api/product/all/${sortBy}/${category}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                console.log("All products:", response.data);
+                const response = await api.get(`/api/product/all/${sortBy}/${category}`);
                 setAllProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -26,10 +21,7 @@ const AdminPage = () => {
 
     const handleDelete = async (id) => {
         try {
-            const token = localStorage.getItem("token");
-            await axios.delete(`https://localhost:7249/api/product/delete/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            await api.delete(`/api/product/delete/${id}`);
             setAllProducts(allProducts.filter(product => product.id !== id));
         } catch (error) {
             console.error("Error deleting product:", error);
