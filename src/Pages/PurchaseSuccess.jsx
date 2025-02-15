@@ -46,7 +46,7 @@ const PurchaseSuccessPage = () => {
 					</p>
 					<div className='bg-gray-700 rounded-lg p-4 mb-6'>
 						<div className='flex items-center justify-between mb-2'>
-							<span className='text-sm text-gray-400'>oOrder number</span>
+							<span className='text-sm text-gray-400'>Order number</span>
 							<span className='text-sm font-semibold text-emerald-400'>{order?.id}</span>
 						</div>
 						<div className='flex items-center justify-between mb-2'>

@@ -7,6 +7,10 @@
   border: 1px solid #afafaf;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
 }
+button
+{
+  cursor: pointer;
+}
 .pay-button {
   padding: 0.7rem 2rem;
   width: 100%;

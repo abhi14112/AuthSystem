@@ -1,5 +1,6 @@
 import React from 'react'
 import CategoryItem from '../components/CategoryItem'
+import Deals from '../components/Deals'
 const CategoryPage = () => {
     const categories = [
         {
@@ -24,17 +25,22 @@ const CategoryPage = () => {
         },
     ]
     return (
-        <div className="bg-slate-800 py-6  min-h-screen flex flex-col gap-2 ">
-            <h1 className='text-5xl text-center text-white font-bold'>Explore Our Categories</h1>
-            <p className='text-slate-200 text-xl text-center'>Discover the latest trends in eco-friendly fashion</p>
-            <div className='mt-3 grid grid-cols-2 px-24 items-center w-full gap-6 '>
-                {
-                    categories.map((item) => (
-                        <CategoryItem item={item} />
-                    ))
-                }
+        <>
+
+            <div className="bg-slate-800 py-6   flex items-center flex-col gap-2 ">
+                <h1 className='text-3xl  text-white font-bold mb-3'>Explore Our Top Categories</h1>
+                <div className='flex flex-wrap gap-4'>
+                    {
+                        categories.map((item) => (
+                            <CategoryItem item={item} />
+                        ))
+                    }
+                </div>
             </div>
-        </div>
+            <h1 className='text-white bg-slate-800 text-center text-3xl font-bold'>Best Deals For You</h1>
+            <Deals />
+        </>
+
     )
 }
 export default CategoryPage;

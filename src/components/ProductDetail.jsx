@@ -61,9 +61,7 @@ const ProductDetail = () => {
                                 <button onClick={handleAddToCart} className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold cursor-pointer hover:bg-blue-700 transition">
                                     Add to Cart
                                 </button>
-                                <button className="mt-2 w-full bg-purple-600 text-white py-3 rounded-lg text-lg font-semibold cursor-pointer hover:bg-purple-700 transition">
-                                    Buy Now
-                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -72,5 +70,4 @@ const ProductDetail = () => {
         </>
     );
 };
-
 export default ProductDetail;

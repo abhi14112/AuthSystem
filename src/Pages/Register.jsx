@@ -23,7 +23,7 @@ const Register = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        api.post("/api/Sauth/signup", userData).then((res) => {
+        api.post("/api/auth/signup", userData).then((res) => {
             toast.success(res.data.message);
             navigate("/login");
         })
