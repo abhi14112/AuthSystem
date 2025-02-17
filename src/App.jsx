@@ -33,7 +33,7 @@ const App = () => {
                 <Route path='/orders' element={user?.role == 'customer' ? <OrdersPage /> : <Navigate to="/" />} />
                 <Route path='/success' element={user?.role == 'customer' ? <PurchaseSuccessPage /> : <Navigate to="/" />} />
                 <Route path='/failed' element={user?.role == 'customer' ? <PurchaseFail /> : <Navigate to="/" />} />
-                <Route path='/profile' element={user?.role == 'customer' ? <Profile /> : <Navigate to="/" />} />
+                <Route path='/user/:section' element={user?.role == 'customer' ? <Profile /> : <Navigate to="/" />} />
                 <Route path='/products' element={user?.role == 'customer' ? <Products /> : <Navigate to="/" />} />
                 <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
                 <Route path='/product/item/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
