@@ -3,33 +3,23 @@ import Navbar from "../components/Navbar";
 import useAuthStore from "../store/store";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Plus, Minus, X } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import api from "../utils/axiosInstance";
 const Cart = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [addresses, setAddresses] = useState([]);
-  const [address, setAddress] = useState("");
-  console.log(addresses);
-  const navigate = useNavigate();
   const setCartItems = useAuthStore((state) => state.setCartItems);
   const cartItems = useAuthStore((state) => state.cartItems);
   const getCartData = async () => {
     try {
-      const token = localStorage.getItem("token");
       const response = await api.get("/api/cart/items");
       const data = response.data?.cartItems;
       if (data) {
+        console.log(data);
         setCartItems(data);
       }
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
   };
-
-  useEffect(() => {
-    api.get("api/profile/getaddress")
-      .then((res) => setAddresses(res.data));
-  }, [])
   const removeFromCart = async (productId) => {
     try {
       await api.post(`/api/cart/RemoveFromCart/${productId}`);
@@ -39,32 +29,6 @@ const Cart = () => {
       toast.error("Failed to remove item from cart");
     }
   };
-
-  const updateQuantity = async (productId, quantity) => {
-    const response = await api.put(`/api/cart/UpdateQuantity/${productId}`, quantity);
-  }
-  const increaseQuantity = (productId) => {
-    let quantity;
-    const updatedItems = cartItems.map((item) => {
-      return item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
-    }
-    );
-    const data = updatedItems.find((item) => item.productId === productId);
-    setCartItems(updatedItems);
-    updateQuantity(productId, quantity + 1);
-  };
-  const decreaseQuantity = (productId) => {
-    const updatedItems = cartItems.map((item) =>
-      item.productId === productId && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    setCartItems(updatedItems);
-    const data = updatedItems.find((item) => item.productId === productId);
-    let quantity = data.quantity;
-    updateQuantity(productId, quantity - 1);
-  };
-
   const calculateTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -92,34 +56,25 @@ const Cart = () => {
     getCartData();
   }, []);
 
+
+  const updateQuantity = async (id, quantity) => {
+    if (quantity < 1) {
+      return;
+    }
+    let updatedItems = cartItems.map((item) => {
+      if (item.productId == id) {
+        item.quantity = quantity;
+      }
+      return item;
+    })
+    setCartItems(updatedItems);
+    await api.put(`/api/cart/UpdateQuantity/${id}`, quantity);
+  }
   return (
     <div className="bg-slate-300">
       <Navbar />
-
-      {/* {isOpen &&
-        <div className="absolute inset-0 bg-[rgba(65,65,65,0.5)]  flex items-center justify-center">
-          <div className="w-[400px] flex flex-col justify-center items-center   relative h-max min-h-[200px] bg-white rounded-md">
-            <p className="absolute top-4 font-semibold text-xl">Select Address</p>
-            <span onClick={() => setIsOpen((prev) => !prev)} className='absolute top-3 right-3 cursor-pointer'>
-              <X />
-            </span>
-            <div className="flex flex-col">
-              {
-                addresses && addresses.map((item) => {
-                  return <label>
-                    <input type="radio" onChange={(e) => setAddress(e.target.value)} value={item.addressLine} name="address" />
-                    {item.addressLine}
-                  </label>
-                })
-              }
-            </div>
-
-          </div>
-        </div>
-      } */}
       <h2 className="text-2xl font-semibold mb-4 text-center">Shopping Cart</h2>
       <div className="w-screen px-6 py-4 bg-slate-300 min-h-screen h-auto  mx-auto grid grid-cols-4">
-        {/* Cart Items List */}
         <div className="w-full lg:w-3/4 col-span-3">
 
           {cartItems.length > 0 ? (
@@ -136,17 +91,16 @@ const Cart = () => {
                     <p className="text-gray-600">{item.description}</p>
                     <p className="text-sm text-gray-500">Category: {item.category}</p>
 
-                    {/* Quantity Buttons */}
                     <div className="flex items-center mt-2">
                       <button
-                        onClick={() => decreaseQuantity(item.productId)}
+                        onClick={() => updateQuantity(item.productId, item.quantity - 1)}
                         className="bg-gray-300 text-gray-800 p-2 rounded-full mr-2 hover:bg-gray-400"
                       >
                         <Minus size={16} />
                       </button>
                       <span className="font-medium">{item.quantity}</span>
                       <button
-                        onClick={() => increaseQuantity(item.productId)}
+                        onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                         className="bg-gray-300 text-gray-800 p-2 rounded-full ml-2 hover:bg-gray-400"
                       >
                         <Plus size={16} />
