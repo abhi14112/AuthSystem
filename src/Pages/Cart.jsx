@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import useAuthStore from "../store/store";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, X } from "lucide-react";
 import api from "../utils/axiosInstance";
 const Cart = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [address, setAddress] = useState("");
+  console.log(addresses);
   const navigate = useNavigate();
   const setCartItems = useAuthStore((state) => state.setCartItems);
   const cartItems = useAuthStore((state) => state.cartItems);
@@ -22,6 +26,10 @@ const Cart = () => {
     }
   };
 
+  useEffect(() => {
+    api.get("api/profile/getaddress")
+      .then((res) => setAddresses(res.data));
+  }, [])
   const removeFromCart = async (productId) => {
     try {
       await api.post(`/api/cart/RemoveFromCart/${productId}`);
@@ -36,16 +44,15 @@ const Cart = () => {
     const response = await api.put(`/api/cart/UpdateQuantity/${productId}`, quantity);
   }
   const increaseQuantity = (productId) => {
-    const updatedItems = cartItems.map((item) =>
-      item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+    let quantity;
+    const updatedItems = cartItems.map((item) => {
+      return item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+    }
     );
     const data = updatedItems.find((item) => item.productId === productId);
-    console.log(data.quantity);
-    let quantity = data.quantity;
     setCartItems(updatedItems);
-    updateQuantity(productId, quantity);
+    updateQuantity(productId, quantity + 1);
   };
-
   const decreaseQuantity = (productId) => {
     const updatedItems = cartItems.map((item) =>
       item.productId === productId && item.quantity > 1
@@ -54,9 +61,8 @@ const Cart = () => {
     );
     setCartItems(updatedItems);
     const data = updatedItems.find((item) => item.productId === productId);
-    console.log(data.quantity);
     let quantity = data.quantity;
-    updateQuantity(productId, quantity);
+    updateQuantity(productId, quantity - 1);
   };
 
   const calculateTotal = () => {
@@ -65,7 +71,6 @@ const Cart = () => {
       0
     ).toFixed(2);
   };
-
   const checkoutItems = cartItems?.map(({ productId, productName, price, quantity }) => ({
     ProductId: productId,
     Name: productName,
@@ -90,6 +95,28 @@ const Cart = () => {
   return (
     <div className="bg-slate-300">
       <Navbar />
+
+      {/* {isOpen &&
+        <div className="absolute inset-0 bg-[rgba(65,65,65,0.5)]  flex items-center justify-center">
+          <div className="w-[400px] flex flex-col justify-center items-center   relative h-max min-h-[200px] bg-white rounded-md">
+            <p className="absolute top-4 font-semibold text-xl">Select Address</p>
+            <span onClick={() => setIsOpen((prev) => !prev)} className='absolute top-3 right-3 cursor-pointer'>
+              <X />
+            </span>
+            <div className="flex flex-col">
+              {
+                addresses && addresses.map((item) => {
+                  return <label>
+                    <input type="radio" onChange={(e) => setAddress(e.target.value)} value={item.addressLine} name="address" />
+                    {item.addressLine}
+                  </label>
+                })
+              }
+            </div>
+
+          </div>
+        </div>
+      } */}
       <h2 className="text-2xl font-semibold mb-4 text-center">Shopping Cart</h2>
       <div className="w-screen px-6 py-4 bg-slate-300 min-h-screen h-auto  mx-auto grid grid-cols-4">
         {/* Cart Items List */}

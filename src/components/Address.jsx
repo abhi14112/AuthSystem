@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import api from '../utils/axiosInstance';
+import toast from 'react-hot-toast';
 const Address = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [addresses, setAddresses] = useState([]);
@@ -11,6 +12,15 @@ const Address = () => {
         "pincode": "",
         "country": ""
     });
+    const handleDelete = async (id) => {
+        try {
+            await api.delete(`/api/Profile/DeleteAddress/${id}`);
+            toast.success("Address deleted successfully");
+            window.location.reload();
+        } catch (error) {
+            toast.error("Failed to delete address");
+        }
+    }
     const handleAddressChange = (e) => {
         setAddress((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     }
@@ -45,12 +55,16 @@ const Address = () => {
                 <div className='mt-4 flex flex-col'>
                     {
                         addresses && addresses.map((item) => {
-                            return <div className='bg-slate-300 rounded-sm mb-2 py-2 w-[400px]'>
-                                <div>
-                                    <p className='font-semibold text-center'>{item.addressLine} {item.pincode}</p>
+                            return <div className='bg-slate-300 px-3 items-center flex justify-between rounded-sm mb-2 py-2 w-[400px]'>
+                                <div className='w-[380px]' >
 
+                                    <div>
+                                        <p className='font-semibold text-center'>{item.addressLine} {item.pincode}</p>
+
+                                    </div>
+                                    <p className='text-center'>{item.city} {item.state} {item.country} </p>
                                 </div>
-                                <p className='text-center'>{item.city} {item.state} {item.country} </p>
+                                <button onClick={() => handleDelete(item?.id)} className="rounded-md bg-red-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">Delete</button>
                             </div>
                         })
                     }

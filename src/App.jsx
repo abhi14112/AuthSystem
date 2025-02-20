@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
+import useActivityTracker from './utils/useActivityTracker';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
@@ -18,8 +19,8 @@ import PurchaseSuccessPage from './Pages/PurchaseSuccess';
 import PurchaseFail from './Pages/PurchaseFail';
 import OrdersPage from './Pages/OrderPage';
 const App = () => {
+    const logout = useAuthStore((state) => state.logout);
     const user = useAuthStore((state) => state.user);
-    console.log(user);
     return (
         <>
             <Routes>
