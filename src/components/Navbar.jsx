@@ -17,6 +17,12 @@ const Navbar = () => {
                 </Link>
                 <div className="flex items-center gap-4">
                     <NavLink
+                        to="/admin/orders"
+                        className="bg-green-500 text-white font-semibold text-xl rounded-md cursor-pointer px-2 py-1"
+                    >
+                        Orders
+                    </NavLink>
+                    <NavLink
                         to="/add"
                         className="bg-blue-500 text-white font-semibold text-xl rounded-md cursor-pointer px-2 py-1"
                     >

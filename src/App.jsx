@@ -18,6 +18,7 @@ import Profile from './Pages/Profile';
 import PurchaseSuccessPage from './Pages/PurchaseSuccess';
 import PurchaseFail from './Pages/PurchaseFail';
 import OrdersPage from './Pages/OrderPage';
+import AdminOrder from './Pages/AdminOrder';
 const App = () => {
     const logout = useAuthStore((state) => state.logout);
     const user = useAuthStore((state) => state.user);
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path='/login' element={user ? <Navigate to={"/"} /> : <Login />} />
                 <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
                 <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
+                <Route path='/admin/orders' element={user?.role == 'admin' ? <AdminOrder /> : <Navigate to="/" />} />
                 <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
                 <Route path='/orders' element={user?.role == 'customer' ? <OrdersPage /> : <Navigate to="/" />} />
                 <Route path='/success' element={user?.role == 'customer' ? <PurchaseSuccessPage /> : <Navigate to="/" />} />
