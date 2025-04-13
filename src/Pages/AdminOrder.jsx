@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import api from '../utils/axiosInstance'
+import { ArrowDown, ArrowUp } from 'lucide-react';
 const AdminOrder = () => {
+
+    const [sortBy, setSortBy] = useState({ "key": null, "order": "desc" });
     const [orders, setOrders] = useState([]);
+
+    const handleSort = (key) => {
+        let order = sortBy.order == "desc" ? "asc" : "desc";
+        const sorted = [...orders].sort((a, b) => {
+            if (a[key] < b[key]) return order === "asc" ? -1 : 1;
+            if (a[key] > b[key]) return order === "asc" ? 1 : -1;
+            return 0;
+        });
+        setOrders(sorted);
+        setSortBy({ "key": key, "order": order });
+    }
     const getOrders = async () => {
         const res = await api.get("/api/order/admin");
         setOrders(res.data);
@@ -39,7 +53,6 @@ const AdminOrder = () => {
             </span>
         );
     };
-
     return (
         <>
             <Navbar />
@@ -51,17 +64,38 @@ const AdminOrder = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Order ID
+                                <th onClick={() => handleSort("id")} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex  cursor-pointer items-center">
+                                    <p>
+                                        Order ID
+                                    </p>
+                                    {
+                                        sortBy.key == "id" ? sortBy.order == "asc" ? <ArrowUp size={18} /> : <ArrowDown size={18} /> : ""
+                                    }
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Created
+                                <th onClick={() => handleSort("createdAt")} scope="col" className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                    <p className='flex'>
+                                        Created
+                                        {
+                                            sortBy.key == "createdAt" ? sortBy.order == "asc" ? <ArrowUp size={18} /> : <ArrowDown size={18} /> : ""
+                                        }
+                                    </p>
+
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Items
+                                <th onClick={() => handleSort("items")} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                    <p className='flex'>
+                                        Items
+                                        {
+                                            sortBy.key == "items" ? sortBy.order == "asc" ? <ArrowUp size={18} /> : <ArrowDown size={18} /> : ""
+                                        }
+                                    </p>
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Total Amount
+                                <th onClick={() => handleSort("totalAmount")} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                    <p className='flex'>
+                                        Amount
+                                        {
+                                            sortBy.key == "totalAmount" ? sortBy.order == "asc" ? <ArrowUp size={18} /> : <ArrowDown size={18} /> : ""
+                                        }
+                                    </p>
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Payment Status

@@ -9,8 +9,6 @@ const PurchaseSuccessPage = () => {
 	const [searchParams] = useSearchParams();
 	const sessionId = searchParams.get("session_id");
 	const [order, setOrder] = useState(null);
-	console.log(sessionId);
-	console.log(order);
 	useEffect(() => {
 		if (sessionId) {
 			api.get(`/api/stripe/session/${sessionId}`)

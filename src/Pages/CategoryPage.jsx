@@ -31,8 +31,8 @@ const CategoryPage = () => {
                 <h1 className='text-3xl  text-white font-bold mb-3'>Explore Our Top Categories</h1>
                 <div className='flex flex-wrap gap-4'>
                     {
-                        categories.map((item) => (
-                            <CategoryItem item={item} />
+                        categories.map((item, index) => (
+                            <CategoryItem key={index} item={item} />
                         ))
                     }
                 </div>

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 
 const PersonalInfoForm = () => {
   const { section } = useParams();
-  console.log(section);
   return (
     <>
       <Navbar />

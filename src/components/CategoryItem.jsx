@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 const CategoryItem = ({ item }) => {
-    console.log(item);
     const navigate = useNavigate();
     return (
         <div onClick={() => navigate("/products", { state: { category: item.categoryTitle } })} className=' hover:cursor-pointer h-[300px] w-[250px]   transition-all relative duration-400 hover:scale-103 '>

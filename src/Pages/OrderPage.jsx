@@ -7,7 +7,6 @@ const OrdersPage = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const user = useAuthStore((state) => state.user);
-    console.log(user);
     useEffect(() => {
         api.get(`/api/Order/${user.emailAddress}`)
             .then((response) => {

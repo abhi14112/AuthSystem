@@ -67,11 +67,6 @@ const ProductDetail = () => {
 
                     <p className="text-gray-600 text-sm">{product.description}</p>
 
-                    
-                    
-
-                    
-
                     {/* Quantity + Buy Now */}
                     <div className="flex items-center gap-4 mt-6">
                         <div className="flex items-center border rounded px-2">
@@ -81,9 +76,9 @@ const ProductDetail = () => {
                         </div>
                         <button
                             onClick={handleAddToCart}
-                            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded"
+                            className="bg-yellow-400 hover:bg-red-500 text-black  font-semibold hover:text-white px-6 py-2 rounded"
                         >
-                            Buy Now
+                            Add To Cart
                         </button>
                     </div>
 

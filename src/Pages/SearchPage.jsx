@@ -8,12 +8,10 @@ const SearchPage = () => {
     const [searchData, setSearchData] = useState([]);
     const location = useLocation();
     const { searchKey } = location.state;
-    console.log(searchKey);
     const perFormSearch = () => {
         const token = localStorage.getItem("token");
         api.get(`/api/product/search/${searchKey}`)
             .then((response) => {
-                console.log(response.data);
                 setSearchData(response.data);
             })
             .catch((error) => {

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../store/store";
 const ProductCard = ({ product }) => {
+    const setCartItems = useAuthStore((state) => state.setCartItems);
     const navigate = useNavigate();
     const [cartData, setCartData] = useState({
         "ProductId": product.id,
@@ -11,6 +13,7 @@ const ProductCard = ({ product }) => {
     const handleAddToCart = async () => {
         try {
             await api.post("/api/cart/AddToCart", cartData);
+            console.log(cartData);
             toast.success("Product Added to Cart Successfully");
         } catch (error) {
             toast.error("Failed to add in cart");

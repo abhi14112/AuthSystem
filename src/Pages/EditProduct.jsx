@@ -7,7 +7,6 @@ const EditProduct = () => {
     const location = useLocation();
     const product = location.state;
     const navigate = useNavigate();
-    console.log(product);
     const [productData, setProductData] = useState({
         "productName": product.productName,
         "description": product.description,

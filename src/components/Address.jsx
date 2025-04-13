@@ -47,7 +47,7 @@ const Address = () => {
     return (
         <>
 
-            <div className='mx-auto w-[400px] flex flex-col  items-center'>
+            <div className='mx-auto w-[400px]  flex flex-col  items-center'>
                 <div className='bg-slate-100 w-full flex flex-col items-center py-2  px-4'>
                     <h1 className='font-semibold text-xl mb-4'>Address</h1>
                     <button onClick={() => { setIsOpen((prev) => !prev) }} className='w-full outline-none shadow-xl rounded-sm hover:bg-blue-600 transition-all duration-300  py-2 px-4 bg-blue-500 text-white'>Add Address</button>

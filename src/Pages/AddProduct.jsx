@@ -37,7 +37,6 @@ const AddProduct = () => {
                     "Content-Type": "multipart/form-data"
                 }
             });
-            console.log("Product added successfully:", response.data);
             alert("Product added successfully!");
             setProductData({
                 productName: "",
