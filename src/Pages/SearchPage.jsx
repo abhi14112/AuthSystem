@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import api from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
-import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
 const SearchPage = () => {
     const [searchData, setSearchData] = useState([]);
@@ -24,7 +23,7 @@ const SearchPage = () => {
     }, [searchKey]);
     return (
         <>
-            <Navbar />
+       
             <div className="container mx-auto px-4 py-8">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6">Search Results for "{searchKey}"</h2>
                 {searchData.length === 0 ? (

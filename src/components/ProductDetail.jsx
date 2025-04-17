@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import api from "../utils/axiosInstance";
 import toast from "react-hot-toast";
 import { MinusIcon, PlusIcon } from "lucide-react";
@@ -46,7 +45,6 @@ const ProductDetail = () => {
 
     return (
         <>
-            <Navbar />
             <div className="max-w-6xl mx-auto p-4 flex flex-col md:flex-row gap-8 mt-8">
                 {/* Product Image */}
                 <div className="w-full md:w-1/2 border-2 border-blue-500 rounded-xl p-4 flex items-center justify-center">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 import api from '../utils/axiosInstance'
 import { ArrowDown, ArrowUp } from 'lucide-react';
 const AdminOrder = () => {
@@ -55,7 +54,6 @@ const AdminOrder = () => {
     };
     return (
         <>
-            <Navbar />
             <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="px-4 py-4 border-b border-gray-200">
                     <h2 className="text-xl font-semibold text-gray-800">Order Details</h2>

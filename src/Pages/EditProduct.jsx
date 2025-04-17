@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const EditProduct = () => {
@@ -57,7 +56,6 @@ const EditProduct = () => {
     };
     return (
         <>
-            <Navbar />
             <div className="min-h-screen bg-gray-100 flex items-center justify-center">
                 <div className="w-full max-w-lg p-6 bg-white rounded-2xl shadow-lg">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Update Product</h2>

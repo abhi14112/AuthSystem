@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/axiosInstance.js";
 const AdminPage = () => {
@@ -30,7 +29,6 @@ const AdminPage = () => {
 
     return (
         <>
-            <Navbar />
             <div className="container mx-auto p-6">
                 <div className="flex justify-between">
                     <h2 className="text-3xl font-bold text-gray-800 mb-6">Product List</h2>

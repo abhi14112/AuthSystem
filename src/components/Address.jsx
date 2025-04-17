@@ -1,8 +1,10 @@
-import { X } from 'lucide-react';
+import { MapPinHouse, Plus, Trash, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import api from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
+import useAuthStore from '../store/store';
 const Address = () => {
+    const setUserAddress = useAuthStore((state) => state.setUserAddress);
     const [isOpen, setIsOpen] = useState(false);
     const [addresses, setAddresses] = useState([]);
     const [address, setAddress] = useState({
@@ -41,21 +43,25 @@ const Address = () => {
     useEffect(() => {
         api.get("api/profile/getaddress")
             .then((res) => {
+                setUserAddress(res.data);
                 setAddresses(res.data);
             })
     }, []);
     return (
         <>
 
-            <div className='mx-auto w-[400px]  flex flex-col  items-center'>
-                <div className='bg-slate-100 w-full flex flex-col items-center py-2  px-4'>
-                    <h1 className='font-semibold text-xl mb-4'>Address</h1>
-                    <button onClick={() => { setIsOpen((prev) => !prev) }} className='w-full outline-none shadow-xl rounded-sm hover:bg-blue-600 transition-all duration-300  py-2 px-4 bg-blue-500 text-white'>Add Address</button>
+            <div className=' w-[400px] p-6 flex flex-col  '>
+                <div onClick={() => setIsOpen((prev) => !prev)} className='bg-slate-100 w-full cursor-pointer flex gap-1 text-green-700 font-semibold '>
+                    <Plus />
+                    <p>
+                        Add a new Address
+                    </p>
                 </div>
-                <div className='mt-4 flex flex-col'>
+                <div className='mt-4  flex flex-col'>
                     {
                         addresses && addresses.map((item) => {
-                            return <div className='bg-slate-300 px-3 items-center flex justify-between rounded-sm mb-2 py-2 w-[400px]'>
+                            return <div className='bg-white px-3 items-center flex justify-between rounded-sm mb-2 py-2 w-[400px]'>
+                                <MapPinHouse size={24} />
                                 <div className='w-[380px]' >
 
                                     <div>
@@ -64,7 +70,7 @@ const Address = () => {
                                     </div>
                                     <p className='text-center'>{item.city} {item.state} {item.country} </p>
                                 </div>
-                                <button onClick={() => handleDelete(item?.id)} className="rounded-md bg-red-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">Delete</button>
+                                <button onClick={() => handleDelete(item?.id)} className=""><Trash size={18} color='red' /></button>
                             </div>
                         })
                     }

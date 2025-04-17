@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { CircleUserRound, Logs, Search } from "lucide-react";
+import { ChevronDown, ChevronUp, CircleUserRound, ExternalLink, Logs, Search } from "lucide-react";
 import { Link, NavLink, useSearchParams } from "react-router-dom";
 import useAuthStore from "../store/store";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 const Navbar = () => {
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
     const logout = useAuthStore((state) => state.logout);
@@ -39,7 +40,7 @@ const Navbar = () => {
         );
     }
     return (
-        <div className="w-full  bg-gray-800 text-white py-6 flex px-12 justify-between items-center">
+        <div className="w-full relative  bg-gray-800 text-white py-6 flex px-12 justify-between items-center">
             <div className="flex items-center">
                 <h1 className="text-2xl font-semibold">
                     <Link to="/">E-Commerce</Link>
@@ -76,13 +77,21 @@ const Navbar = () => {
                     </button>
                 </div>
             </div>
-            <div className="flex gap-3 items-center">
-                <button onClick={() => { navigate("/orders") }} className="focus:outline-none relative cursor-pointer text-white bg-blue-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+            <div className="flex gap-3 items-center ">
+
+                <div className="flex gap-2 items-center cursor-pointer transition hover:bg-slate-700 py-2 px-4 rounded-lg" onClick={() => setOpen((prev) => !prev)}>
+                    <button className="text-xl">Account</button>
+                    {
+                        open ? <ChevronUp /> : <ChevronDown />
+                    }
+                </div>
+
+                {/* <button onClick={() => { navigate("/orders") }} className="focus:outline-none relative cursor-pointer text-white bg-blue-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                     <Logs size={18} />
                 </button>
                 <button onClick={() => { navigate("/user/profile") }} className="focus:outline-none relative cursor-pointer text-white bg-blue-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                     <CircleUserRound size={18} />
-                </button>
+                </button> */}
                 <button
                     className="focus:outline-none relative cursor-pointer text-white bg-yellow-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                     onClick={() => {
@@ -92,14 +101,44 @@ const Navbar = () => {
                 >
                     <ShoppingCart size={18} />
                 </button>
-                <button
+                {/* <button
                     type="button"
                     onClick={logout}
                     className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                 >
                     Logout
-                </button>
+                </button> */}
             </div>
+
+            {
+                open &&
+                <div className="absolute z-50 right-[125px] rounded-md px-4 py-2 bg-white text-black h-max w-[300px] top-[70px]">
+                    <div className="border-b border-slate-500 py-2">
+                        <p className="font-semibold">My Account</p>
+                        <div onClick={() => setOpen((prev) => !prev)} className="flex gap-2 items-center hover:cursor-pointer">
+                            <NavLink to="/dashboard/account">
+                                {user?.firstName}
+                            </NavLink>
+                            <ExternalLink size={18} />
+                        </div>
+                    </div>
+                    <div>
+                        <p>
+                            <NavLink onClick={() => (setOpen((prev) => !prev))} to="/dashboard">
+                                My Orders
+                            </NavLink>
+                        </p>
+                        <p>
+                            <NavLink onClick={() => (setOpen((prev) => !prev))} to="/dashboard/address">
+                                Saved Addresses
+                            </NavLink>
+                        </p>
+                        <p onClick={logout} className="text-red-400 font-semibold cursor-pointer">
+                            Logout</p>
+                    </div>
+                </div>
+            }
+
         </div>
     );
 };

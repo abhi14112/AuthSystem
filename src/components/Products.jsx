@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import api from "../utils/axiosInstance";
-import Navbar from "./Navbar";
 import { useLocation } from "react-router-dom";
 const Products = () => {
     const location = useLocation();
@@ -24,7 +23,6 @@ const Products = () => {
     }, [sortBy, category]);
     return (
         <>
-            <Navbar />
             <div className="col-span-1 bg-slate-900 flex gap-3 p-2 px-10 text-white">
                 <select
                     value={sortBy}

@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import React from "react";
 import ProfileSidebar from "../components/ProfileSidebar";
 import ProfileData from "../components/ProfileData";
@@ -9,7 +8,6 @@ const PersonalInfoForm = () => {
   const { section } = useParams();
   return (
     <>
-      <Navbar />
       <div className="flex px-8 py-6">
         <ProfileSidebar />
         {section === "profile" && <ProfileData />}
