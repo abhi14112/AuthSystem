@@ -49,7 +49,7 @@ const OrdersPage = () => {
                                 </div>
                             </div>
                             <div>
-                                <button className="bg-purple-500 rounded-lg text-sm py-1 px-2 text-white">Shipped</button>
+                                <button className={`${order.orderStatus == "Pending" ? 'bg-yellow-500' : order.orderStatus == "Delivered" ? 'bg-green-500' : order.orderStatus == "Cancelled" ? 'bg-red-500' : order.orderStatus == "Shipped" ? 'bg-purple-500' : order.orderStatus == "Returned" ? 'bg-gray-500' : order.orderStatus == "Processing" ? 'bg-blue-500' : ''} rounded-lg text-sm py-1 px-2 text-white`}>{order.orderStatus}</button>
                             </div>
                         </div>
                         <div>

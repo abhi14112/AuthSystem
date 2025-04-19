@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/store";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Plus, Minus } from "lucide-react";
 import api from "../utils/axiosInstance";
 import Address from "../components/Address";
@@ -9,6 +9,7 @@ const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [isAddress, setIsAddress] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [singleAddress, setSingleAddress] = useState({
     "addressLine": "",
     "city": "",
@@ -55,10 +56,15 @@ const Cart = () => {
       Name: productName,
       price: price,
       Quantity: quantity,
+      address: selectedAddress?.id
     })
   );
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!selectedAddress) {
+      toast.error("Please select address");
+      return;
+    }
     try {
       const response = await api.post(
         "/api/Stripe/create-payment-intent",
@@ -132,7 +138,7 @@ const Cart = () => {
             {
 
               addresses.map((item) => (
-                <label onClick={() => setIsAddress(true)} className="bg-white mt-2 py-2 px-8 flex gap-4">
+                <label onClick={() => { setIsAddress(true); setSelectedAddress(item); }} className="bg-white mt-2 py-2 px-8 flex gap-4">
 
                   <input type="radio" name="address">
                   </input>
@@ -262,7 +268,7 @@ const Cart = () => {
           }
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Cart;

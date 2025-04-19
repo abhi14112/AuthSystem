@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import api from '../utils/axiosInstance'
+import axiosInstance from "../utils/axiosInstance";
 import { ArrowDown, ArrowUp } from 'lucide-react';
+import toast from 'react-hot-toast';
 const AdminOrder = () => {
-
     const [sortBy, setSortBy] = useState({ "key": null, "order": "desc" });
     const [orders, setOrders] = useState([]);
 
@@ -27,14 +28,29 @@ const AdminOrder = () => {
         const date = new Date(dateString);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
+    const updateOrder = async (id, newOrderStatus) => {
+        const data = {
+            orderId: id,
+            status: newOrderStatus
+        }
+        try {
+            await axiosInstance.post("/api/order/updateOrderStatus", data);
+            toast.success("status updated successfully");
+            getOrders();
+        } catch (error) {
+            toast.error("Faild to update status");
+        }
 
+    }
     const StatusBadge = ({ status, type }) => {
         const getStatusColor = () => {
             if (type === 'order') {
                 switch (status.toLowerCase()) {
-                    case 'received': return 'bg-green-100 text-green-800';
-                    case 'pending': return 'bg-yellow-100 text-yellow-800';
-                    case 'declined': return 'bg-red-100 text-red-800';
+                    case 'delivered': return 'bg-green-500 text-white';
+                    case 'pending': return 'bg-yellow-500 text-white';
+                    case 'cancelled': return 'bg-red-500 text-white';
+                    case 'shipped': return 'bg-purple-500 text-white';
+
                     default: return 'bg-gray-100 text-gray-800';
                 }
             } else {
@@ -52,6 +68,7 @@ const AdminOrder = () => {
             </span>
         );
     };
+    const status = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled", "Returned",];
     return (
         <>
             <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
@@ -123,7 +140,19 @@ const AdminOrder = () => {
                                             <StatusBadge status={order.paymentStatus} type="payment" />
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <StatusBadge status={order.orderStatus} type="order" />
+                                            <select onChange={(e) => { updateOrder(order.id, e.target.value) }} className={`${order.orderStatus == "Pending" ? 'bg-yellow-500' : order.orderStatus == "Delivered" ? 'bg-green-500' : order.orderStatus == "Cancelled" ? 'bg-red-500' : order.orderStatus == "Shipped" ? 'bg-purple-500' : order.orderStatus == "Returned" ? 'bg-gray-500' : order.orderStatus == "Processing" ? 'bg-blue-500' : ''} rounded-lg text-sm py-1 px-2 text-white`}>
+                                                <option value={order?.orderStatus}>
+                                                    {order.orderStatus}
+                                                </option>
+                                                {
+                                                    status.map((item) => {
+                                                        if (item.toLowerCase() != order.orderStatus.toLowerCase()) {
+                                                            return <option value={item}>{item}</option>
+                                                        }
+                                                    })
+                                                }
+                                            </select>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -131,7 +160,7 @@ const AdminOrder = () => {
                         }
                     </table>
                 </div>
-            </div>
+            </div >
         </>
 
     );

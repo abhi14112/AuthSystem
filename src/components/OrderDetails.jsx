@@ -34,7 +34,7 @@ const OrderDetails = () => {
           }
         </div>
 
-        <div>
+        <div className='border-b-8 py-4 mb-2 border-slate-400'>
           <div className='py-4 border-b border-slate-400'>
             <p className='font-semibold text-sm'>Bill details</p>
           </div>
@@ -51,6 +51,19 @@ const OrderDetails = () => {
             </div>
           </div>
         </div>
+
+        <div>
+          <p className='font-semibold'>Order details</p>
+          <div className='pb-2'>
+            <p className='text-sm text-slate-700'>Order ID</p>
+            <p className='font-semibold'>{data?.id}</p>
+          </div>
+          <div className='pb-2'>
+            <p className='text-sm text-slate-700'>Deliver To</p>
+            <p className='font-semibold'>{data.address.addressLine}, {data.address.city} {data.address.state}, {data.address.country}, {data.address.pinCode}</p>
+          </div>
+        </div>
+
       </div>
     </div>
   )
