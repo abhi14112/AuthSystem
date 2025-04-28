@@ -24,6 +24,8 @@ import OrderDetails from './components/OrderDetails';
 import NavLayout from './Pages/NavLayout';
 import Account from './components/Account';
 import Address from './components/Address';
+import Analytics from './Pages/Analytics';
+import AdminProducts from './Pages/AdminProducts';
 const App = () => {
     const logout = useAuthStore((state) => state.logout);
     const user = useAuthStore((state) => state.user);
@@ -40,6 +42,7 @@ const App = () => {
                 <Route path='/login' element={user ? <Navigate to={"/"} /> : <Login />} />
                 <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
                 <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
+                <Route path='/admin/products' element={user?.role == 'admin' ? <AdminProducts /> : <Navigate to="/" />} />
                 <Route path='/admin/orders' element={user?.role == 'admin' ? <AdminOrder /> : <Navigate to="/" />} />
                 <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
                 <Route path='/dashboard' element={user?.role == 'customer' ? <NavLayout /> : <Navigate to="/" />} >
@@ -57,11 +60,11 @@ const App = () => {
                 <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
                 <Route path='/product/item/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
                 <Route path='/update' element={user?.role == 'admin' ? <EditProduct /> : <Navigate to="/" />} />
+                {/* <Route path='/analytics' element={user?.role == 'admin' ? <Analytics /> : <Navigate to="/" />} /> */}
                 <Route path='*' element={<NotFound />} />
-
             </Routes>
             <Toaster />
         </>
     )
 }
-export default App
+export default App;

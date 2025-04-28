@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/axiosInstance.js";
-const AdminPage = () => {
+const Products = () => {
     const [allProducts, setAllProducts] = useState([]);
     const navigate = useNavigate();
     const [sortBy, setSortBy] = useState("price-asc");
@@ -100,4 +100,4 @@ const AdminPage = () => {
     );
 };
 
-export default AdminPage;
+export default Products;
