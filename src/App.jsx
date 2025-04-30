@@ -1,70 +1,103 @@
-import React from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
-import useActivityTracker from './utils/useActivityTracker';
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
-import NotFound from './Pages/NotFound';
-import { Toaster } from 'react-hot-toast';
-import PrivateRoute from './utils/PrivateRoute';
-import useAuthStore from './store/store';
-import AddProduct from './Pages/AddProduct';
-import EditProduct from './Pages/EditProduct';
-import Cart from './Pages/Cart';
-import SearchPage from './Pages/SearchPage';
-import ProductDetail from './components/ProductDetail';
-import Products from './components/Products';
-import Profile from './Pages/Profile';
-import PurchaseSuccessPage from './Pages/PurchaseSuccess';
-import PurchaseFail from './Pages/PurchaseFail';
-import OrdersPage from './Pages/OrderPage';
-import AdminOrder from './Pages/AdminOrder';
-import Navbar from './components/Navbar';
-import OrderDetails from './components/OrderDetails';
-import NavLayout from './Pages/NavLayout';
-import Account from './components/Account';
-import Address from './components/Address';
-import Analytics from './Pages/Analytics';
-import AdminProducts from './Pages/AdminProducts';
+import Home from "./user/pages/Home";
+import Login from "./common/Login";
+import Register from "./common/Register";
+import NotFound from "./common/NotFound";
+import { Toaster } from "react-hot-toast";
+import Address from "./user/components/Address";
+import OrderDetails from "./user/components/OrderDetails";
+import useAuthStore from "./store/store";
+import AddProduct from "./admin/pages/AddProduct";
+import EditProduct from "./admin/pages/EditProduct";
+import SearchPage from "./user/pages/SearchPage";
+import ProductDetail from "./user/components/ProductDetail";
+import Products from "./user/pages/Products";
+import AdminOrder from "./admin/pages/AdminOrder";
+import Account from "./user/components/Account";
+import AdminProducts from "./admin/pages/AdminProducts";
+import Checkauth from "./common/Checkauth";
+import AdminLayout from "./admin/layout/AdminLayout";
+import AdminDashboard from "./admin/pages/AdminDashboard";
+import UserLayout from "./user/layout/UserLayout";
+import Cart from "./user/pages/Cart";
+import OrderPage from "./user/pages/OrderPage";
+import NavLayout from "./user/layout/NavLayout";
+import PurchaseSuccess from "./user/pages/PurchaseSuccess";
+import Categoreis from "./admin/pages/Categories";
+import PurchaseFail from "./user/pages/PurchaseFail";
+import AddCategory from "./admin/pages/AddCategory";
+import EditCategory from "./admin/pages/EditCategory";
 const App = () => {
-    const logout = useAuthStore((state) => state.logout);
-    const user = useAuthStore((state) => state.user);
-    return (
-        <>
-            {
-                user &&
-                <Navbar />
-            }
-            <Routes>
-                <Route path="/" element={
-                    <PrivateRoute />
-                } />
-                <Route path='/login' element={user ? <Navigate to={"/"} /> : <Login />} />
-                <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
-                <Route path='/add' element={user?.role == 'admin' ? <AddProduct /> : <Navigate to="/" />} />
-                <Route path='/admin/products' element={user?.role == 'admin' ? <AdminProducts /> : <Navigate to="/" />} />
-                <Route path='/admin/orders' element={user?.role == 'admin' ? <AdminOrder /> : <Navigate to="/" />} />
-                <Route path='/cart' element={user?.role == 'customer' ? <Cart /> : <Navigate to="/" />} />
-                <Route path='/dashboard' element={user?.role == 'customer' ? <NavLayout /> : <Navigate to="/" />} >
-                    <Route path='' element={<OrdersPage />}>
-                    </Route>
-                    <Route path='orderdetails/:id' element={<OrderDetails />}>
-                    </Route>
-                    <Route path='account' element={<Account />}></Route>
-                    <Route path='address' element={<Address />}></Route>
-                </Route>
-                <Route path='/success' element={user?.role == 'customer' ? <PurchaseSuccessPage /> : <Navigate to="/" />} />
-                <Route path='/failed' element={user?.role == 'customer' ? <PurchaseFail /> : <Navigate to="/" />} />
-                <Route path='/user/:section' element={user?.role == 'customer' ? <Profile /> : <Navigate to="/" />} />
-                <Route path='/products' element={user?.role == 'customer' ? <Products /> : <Navigate to="/" />} />
-                <Route path='/search' element={user?.role == 'customer' ? <SearchPage /> : <Navigate to="/" />} />
-                <Route path='/product/item/:id' element={user?.role == 'customer' ? <ProductDetail /> : <Navigate to="/" />} />
-                <Route path='/update' element={user?.role == 'admin' ? <EditProduct /> : <Navigate to="/" />} />
-                {/* <Route path='/analytics' element={user?.role == 'admin' ? <Analytics /> : <Navigate to="/" />} /> */}
-                <Route path='*' element={<NotFound />} />
-            </Routes>
-            <Toaster />
-        </>
-    )
-}
+  const user = useAuthStore((state) => state.user);
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Checkauth user={user} />} />
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/success"
+          element={
+            <Checkauth user={user}>
+              <PurchaseSuccess />
+            </Checkauth>
+          }
+        ></Route>
+        <Route
+          path="/failed"
+          element={
+            <Checkauth user={user}>
+              <PurchaseFail />
+            </Checkauth>
+          }
+        ></Route>
+        <Route
+          path="/admin"
+          element={
+            <Checkauth user={user}>
+              <AdminLayout />
+            </Checkauth>
+          }
+        >
+          <Route index path="" element={<AdminDashboard />} />
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="orders" element={<AdminOrder />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="edit" element={<EditProduct />} />
+          <Route path="categories" element={<Categoreis />} />
+          <Route path="addCategory" element={<AddCategory />} />
+          <Route path="editCategory" element={<EditCategory />} />
+        </Route>
+        <Route
+          path="/shop"
+          element={
+            <Checkauth user={user}>
+              <UserLayout />
+            </Checkauth>
+          }
+        >
+          <Route path="home" element={<Home />} />
+          <Route path="products" element={<Products />} />
+          <Route path="product/:id" element={<ProductDetail />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="dashboard" element={<NavLayout />}>
+            <Route path="account" element={<Account />} />
+            <Route path="orders" element={<OrderPage />} />
+            <Route path="orders/orderdetails/:id" element={<OrderDetails />} />
+            <Route path="address" element={<Address />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Toaster />
+    </>
+  );
+};
 export default App;
