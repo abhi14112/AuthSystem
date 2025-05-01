@@ -22,28 +22,44 @@ const LeftSidebar = () => {
       <div className="flex border-gray-300 h-screen flex-col items-between">
         <div className="flex flex-col gap-2">
           <Link
-            className={`flex ${location.pathname == "/admin" ? "bg-violet-500 text-white" : "text-black"} py-2 px-2 rounded-md  gap-2 items-center`}
+            className={`flex ${
+              location.pathname == "/admin"
+                ? "bg-violet-500 text-white"
+                : "text-black"
+            } py-2 px-2 rounded-md  gap-2 items-center`}
             to="/admin"
           >
             <LayoutDashboard />
             Dashboard
           </Link>
           <Link
-            className={`flex ${location.pathname == "/admin/products" ? "bg-violet-500 text-white" : "text-black"} py-2 px-2 rounded-md  gap-2 items-center`}
+            className={`flex ${
+              location.pathname == "/admin/products"
+                ? "bg-violet-500 text-white"
+                : "text-black"
+            } py-2 px-2 rounded-md  gap-2 items-center`}
             to="/admin/products"
           >
             <BaggageClaim />
             Products
           </Link>
           <Link
-            className={`flex ${location.pathname == "/admin/categories" ? "bg-violet-500 text-white" : "text-black"} py-2 px-2 rounded-md  gap-2 items-center`}
+            className={`flex ${
+              location.pathname == "/admin/categories"
+                ? "bg-violet-500 text-white"
+                : "text-black"
+            } py-2 px-2 rounded-md  gap-2 items-center`}
             to="/admin/categories"
           >
             <ChartBarStacked />
             Categories
           </Link>
           <Link
-            className={`flex ${location.pathname == "/admin/orders" ? "bg-violet-500 text-white" : "text-black"} py-2 px-2 rounded-md  gap-2 items-center`}
+            className={`flex ${
+              location.pathname == "/admin/orders"
+                ? "bg-violet-500 text-white"
+                : "text-black"
+            } py-2 px-2 rounded-md  gap-2 items-center`}
             to="/admin/orders"
           >
             <ShoppingCart />

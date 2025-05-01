@@ -53,7 +53,7 @@ const Navbar = () => {
     );
   }
   return (
-    <div className="w-full relative  bg-gray-800 text-white py-6 flex px-12 justify-between items-center">
+    <div className="w-full  h-max  bg-gray-800 text-white py-6 flex px-12 justify-between items-center">
       <div className="flex items-center">
         <h1 className="text-2xl font-semibold">
           <Link to="/">E-Commerce</Link>

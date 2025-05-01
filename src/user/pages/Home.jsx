@@ -1,9 +1,10 @@
 import React from "react";
 import CategoryPage from "./CategoryPage";
-import Footer from "../components/Footer";
+import Hero from "../components/Hero";
 const Home = () => {
   return (
     <div>
+      <Hero />
       <CategoryPage />
     </div>
   );

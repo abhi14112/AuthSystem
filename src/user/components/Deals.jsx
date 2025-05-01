@@ -19,7 +19,7 @@ const Deals = () => {
   }, []);
   return (
     <>
-      <div className="bg-slate-800 px-4 py-6 col-span-3 w-screen min-h-screen h-max flex flex-wrap gap-5 justify-center">
+      <div className="bg-white text-slate-800 px-4 py-6 col-span-3 w-screen min-h-screen h-max flex flex-wrap gap-5 justify-center">
         {products.map((product) => {
           return <ProductCard key={product.id} product={product} />;
         })}

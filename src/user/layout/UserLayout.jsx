@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 const UserLayout = () => {
   return (
     <>
-      <div>
+      <div className="overflow-x-hidden">
         <Navbar />
       </div>
       <div>
